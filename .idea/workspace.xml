@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0137e29-1b7b-4cd0-9023-d839a5b56cb0" name="Default" comment="">
+    <list default="true" id="d0137e29-1b7b-4cd0-9023-d839a5b56cb0" name="Default" comment="changed logical">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/assets/gfx/jewel8.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel1.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel2.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel3.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel3.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel4.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel4.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel5.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel5.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel6.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel6.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/assets/gfx/jewel7.png" afterPath="$PROJECT_DIR$/assets/gfx/jewel7.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelSprite.java" afterPath="$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelSprite.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/wealk/android/jewels/Jewels.java" afterPath="$PROJECT_DIR$/src/wealk/android/jewels/Jewels.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -79,20 +87,7 @@
       <file leaf-file-name="Jewels.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Jewels.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="802" column="17" selection-start="31129" selection-end="31129" vertical-scroll-proportion="0.05846154" vertical-offset="13965" max-vertical-offset="24890">
-              <folding>
-                <element signature="e#38000#38013#0" expanded="true" />
-                <element signature="e#39533#39546#0" expanded="true" />
-                <element signature="e#39634#39647#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BorderSprite.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/BorderSprite.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="16" selection-start="1717" selection-end="1717" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1577">
+            <state line="393" column="0" selection-start="16150" selection-end="16150" vertical-scroll-proportion="0.9076923" vertical-offset="5971" max-vertical-offset="22667">
               <folding />
             </state>
           </provider>
@@ -101,7 +96,7 @@
       <file leaf-file-name="ISprite.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/ISprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="40" selection-start="226" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="418">
+            <state line="13" column="40" selection-start="226" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="418">
               <folding />
             </state>
           </provider>
@@ -110,25 +105,7 @@
       <file leaf-file-name="JewelSprite.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelSprite.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="37" column="10" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0" vertical-offset="684" max-vertical-offset="2850">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="IConstants.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/constants/IConstants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="28" selection-start="425" selection-end="425" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="836">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Jewels1.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Jewels1.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="504" column="7" selection-start="19242" selection-end="21067" vertical-scroll-proportion="0.0" vertical-offset="9557" max-vertical-offset="30685">
+            <state line="165" column="10" selection-start="4778" selection-end="4778" vertical-scroll-proportion="0.0" vertical-offset="2689" max-vertical-offset="3306">
               <folding />
             </state>
           </provider>
@@ -162,8 +139,8 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
-    <option name="height" value="744" />
+    <option name="width" value="1456" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -244,11 +221,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jewels" />
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -262,15 +235,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
+              <option name="myItemId" value="assets" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="jewels" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="entity" />
+              <option name="myItemId" value="gfx" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -300,6 +269,14 @@
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xiaoqi.zhu\source\android\XJewels\assets\gfx" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\xiaoqi.zhu\source\android\XJewels\assets\gfx" />
+    </key>
   </component>
   <component name="RunManager" selected="Android Application.Jewels">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -462,15 +439,39 @@
       <created>1378962164423</created>
       <updated>1378962164423</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="changed logical">
+      <created>1378973239184</created>
+      <updated>1378973239184</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
+  <component name="TodoView" selected-index="4">
+    <todo-panel id="selected-file">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="default-changelist">
+      <are-packages-shown value="false" />
+      <are-modules-shown value="false" />
+      <flatten-packages value="false" />
+      <is-autoscroll-to-source value="false" />
+    </todo-panel>
+  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879046" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2684284" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -478,19 +479,19 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40237692" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40237692" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32962447" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964131" sideWeight="0.7315716" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5976231" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23672883" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2684284" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -557,23 +558,61 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelCell.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="33" selection-start="208" selection-end="208" vertical-scroll-proportion="0.33186814" vertical-offset="20" max-vertical-offset="475">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/andengine.jar!/org/anddev/andengine/entity/layer/ILayer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.3511628" vertical-offset="191" max-vertical-offset="817" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/jewel_dea.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/jewel_dead2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/jewel_dead3.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/jewel_dead4.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/jewel_dead5.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/spark2.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/spark1.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/assets/gfx/bonusbar.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/BorderSprite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="16" selection-start="1717" selection-end="1717" vertical-scroll-proportion="0.0" vertical-offset="969" max-vertical-offset="1577">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/ISprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="40" selection-start="226" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="228" max-vertical-offset="418">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelSprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="10" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0" vertical-offset="684" max-vertical-offset="2850">
+        <state line="35" column="5" selection-start="1344" selection-end="1344" vertical-scroll-proportion="-0.8276553" vertical-offset="926" max-vertical-offset="1425">
           <folding />
         </state>
       </provider>
@@ -585,39 +624,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Jewels1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="504" column="7" selection-start="19242" selection-end="21067" vertical-scroll-proportion="0.0" vertical-offset="9557" max-vertical-offset="30685">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Background.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="14" selection-start="662" selection-end="662" vertical-scroll-proportion="-1.5013624" vertical-offset="798" max-vertical-offset="1235">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Jewels1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="504" column="7" selection-start="19242" selection-end="21067" vertical-scroll-proportion="0.0" vertical-offset="9557" max-vertical-offset="30685">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/andengine.jar!/org/anddev/andengine/entity/shape/Shape.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="16" selection-start="2191" selection-end="2191" vertical-scroll-proportion="0.36008677" vertical-offset="974" max-vertical-offset="3477" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/constants/IConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="28" selection-start="425" selection-end="425" vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="836">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/ISprite.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="13" column="40" selection-start="226" selection-end="229" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="418">
@@ -625,47 +631,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/ICell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="22" selection-start="294" selection-end="294" vertical-scroll-proportion="0.37582418" vertical-offset="0" max-vertical-offset="455">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelCell.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="33" selection-start="208" selection-end="208" vertical-scroll-proportion="0.33186814" vertical-offset="20" max-vertical-offset="475">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/JewelSprite.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="37" column="10" selection-start="1256" selection-end="1256" vertical-scroll-proportion="0.0" vertical-offset="362" max-vertical-offset="2755">
+        <state line="165" column="10" selection-start="4778" selection-end="4778" vertical-scroll-proportion="0.0" vertical-offset="2689" max-vertical-offset="3306">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/entity/BorderSprite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="16" selection-start="1717" selection-end="1717" vertical-scroll-proportion="0.0" vertical-offset="514" max-vertical-offset="1425">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$PROJECT_DIR$/lib/andengine.jar!/org/anddev/andengine/entity/layer/ILayer.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="9" selection-start="648" selection-end="648" vertical-scroll-proportion="0.3511628" vertical-offset="191" max-vertical-offset="817" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/wealk/android/jewels/Jewels.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="802" column="17" selection-start="31129" selection-end="31129" vertical-scroll-proportion="0.05846154" vertical-offset="13965" max-vertical-offset="25099">
-          <folding>
-            <element signature="e#38000#38013#0" expanded="true" />
-            <element signature="e#39533#39546#0" expanded="true" />
-            <element signature="e#39634#39647#0" expanded="true" />
-          </folding>
+        <state line="393" column="0" selection-start="16150" selection-end="16150" vertical-scroll-proportion="0.9076923" vertical-offset="5971" max-vertical-offset="22667">
+          <folding />
         </state>
       </provider>
     </entry>

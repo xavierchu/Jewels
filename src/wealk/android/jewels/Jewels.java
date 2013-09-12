@@ -110,6 +110,8 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private final int CHECK = 0;//执行检测
     private int STATE = CHECK;//一开始就检测，没有移动命令的时候也一直检测
 
+
+
     /**
      * 游戏音效*
      */
@@ -224,8 +226,8 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         this.mEngine.getTextureManager().loadTexture(this.background.getMBackgroundTexture());
         this.mEngine.getTextureManager().loadTexture(this.background.getMBackground2Texture());
         /*钻石*/
-        this.mJewelTexture = new Texture[7];
-        this.mJewelTextureRegion = new TextureRegion[7];
+        this.mJewelTexture = new Texture[8];
+        this.mJewelTextureRegion = new TextureRegion[8];
         for (int i = 0; i < this.mJewelTexture.length; i++) {
             this.mJewelTexture[i] = new Texture(64, 64, TextureOptions.DEFAULT);
         }
@@ -243,6 +245,8 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
                 (this.mJewelTexture[5], this, "jewel6.png", 0, 0);
         this.mJewelTextureRegion[6] = TextureRegionFactory.createFromAsset
                 (this.mJewelTexture[6], this, "jewel7.png", 0, 0);
+        this.mJewelTextureRegion[7] = TextureRegionFactory.createFromAsset
+                (this.mJewelTexture[7], this, "jewel8.png", 0, 0);
         for (int i = 0; i < this.mJewelTexture.length; i++) {
             this.mEngine.getTextureManager().loadTexture(this.mJewelTexture[i]);
         }
@@ -385,6 +389,10 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
             if (mSelectedJewels.size() < 3) {
                 return true;
             }
+            //TODO: boom
+            if(mSelectedJewels.size() == 1 && mSelectedJewels.get(0).isBoom()) {
+
+            }
             removeJewels(mSelectedJewels);
             return false;
         }
@@ -409,6 +417,9 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
             if (curJewel.getCol() == jewel.getCol() && curJewel.getRow() == jewel.getRow()) {
                 return true;
             }
+        }
+        if(lastJewel.isProps()) {
+            return true;
         }
         return false;
     }
@@ -694,9 +705,6 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
                 String key = getKey(i, j);
 
                 JewelSprite value = getRandomJewel(i, j);
-                while (checkHorizontal(value).size() >= 3 || checkVertical(value).size() >= 3) {
-                    value = getRandomJewel(i, j);
-                }
                 mHashMap.put(key, value);
                 this.mMainScene.getLayer(LAYER_JEWELS).addEntity(
                         this.mHashMap.get(key).getJewel());
@@ -961,142 +969,17 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     }
 
     /**
-     * 交换后是否需要消去
-     *
-     * @return ture/false(有/无消去的)
-     */
-    private boolean isSwapFall() {
-        int count = 0;
-        //当前钻石的行检测
-        if (checkHorizontal(mHashMap.get(getKey(mCurRow, mCurCol))).size() >= 3) {
-            count += 1;
-        }
-        //上一个钻石的行检测
-        if (checkHorizontal(mHashMap.get(getKey(mLastRow, mLastCol))).size() >= 3) {
-            count += 1;
-        }
-        //当前钻石的列检测
-        if (checkVertical(mHashMap.get(getKey(mCurRow, mCurCol))).size() >= 3) {
-            count += 1;
-        }
-        //上一个钻石的列检测
-        if (checkVertical(mHashMap.get(getKey(mLastRow, mLastCol))).size() >= 3) {
-            count += 1;
-        }
-
-        if (count == 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * 检测水平方向
-     *
-     * @param jewel
-     * @return int 水平方向能消去到队列的个数
-     */
-    private ArrayList<JewelSprite> checkHorizontal(final JewelSprite jewel) {
-        ArrayList<JewelSprite> deadArrayList = new ArrayList<JewelSprite>();
-        if (jewel != null) {
-            int curRow = jewel.getRow();
-            final int curCol = jewel.getCol();
-            final int curStyle = jewel.getStyle();
-            //向左检测
-            while ((curRow - 1) >= 0) {
-                if (mHashMap.get(getKey(curRow - 1, curCol)) != null) {
-                    if (curStyle == mHashMap.get(getKey(curRow - 1, curCol)).getStyle()) {
-                        deadArrayList.add(mHashMap.get(getKey(curRow - 1, curCol)));
-                    } else {//出现不连续的，跳过去
-                        curRow = 0;
-                    }
-                }
-                curRow -= 1;
-            }
-            curRow = jewel.getRow();//回来原位重新开始
-            deadArrayList.add(mHashMap.get(getKey(curRow, curCol)));
-            //向右检测
-            while ((curRow + 1) < CELLS_VERTICAL) {
-                if (mHashMap.get(getKey(curRow + 1, curCol)) != null) {
-                    if (curStyle == mHashMap.get(getKey(curRow + 1, curCol)).getStyle()) {
-                        deadArrayList.add(mHashMap.get(getKey(curRow + 1, curCol)));
-                    } else {//出现不连续的，跳过去
-                        curRow = CELLS_VERTICAL;
-                    }
-                }
-                curRow += 1;
-            }
-        }
-        return deadArrayList;
-    }
-
-    /**
-     * 检测垂直方向
-     *
-     * @param jewel
-     * @return int 垂直方向能消去到队列的个数
-     */
-    private ArrayList<JewelSprite> checkVertical(final JewelSprite jewel) {
-        ArrayList<JewelSprite> deadArrayList = new ArrayList<JewelSprite>();
-        if (jewel != null) {
-            ArrayList<JewelSprite> temp = new ArrayList<JewelSprite>();
-            final int curRow = jewel.getRow();
-            int curCol = jewel.getCol();
-            final int curStyle = jewel.getStyle();
-            //向上检测
-            while ((curCol - 1) >= 0) {
-                if (mHashMap.get(getKey(curRow, curCol - 1)) != null) {
-                    if (curStyle == mHashMap.get(getKey(curRow, curCol - 1)).getStyle()) {
-                        temp.add(mHashMap.get(getKey(curRow, curCol - 1)));
-                    } else {//出现不连续的，跳过去，检查下侧
-                        curCol = 0;
-                    }
-                }
-                curCol -= 1;
-            }
-            if (temp.size() > 0) {
-                for (int p = temp.size() - 1; p >= 0; p--) {
-                    deadArrayList.add(temp.get(p));
-                }
-            }
-            curCol = jewel.getCol();    //回来原位重新开始
-            deadArrayList.add(mHashMap.get(getKey(curRow, curCol)));
-            while ((curCol + 1) < CELLS_HORIZONTAL) {//向下检测
-                if (mHashMap.get(getKey(curRow, curCol + 1)) != null) {
-                    if (curStyle == mHashMap.get(getKey(curRow, curCol + 1)).getStyle()) {
-                        deadArrayList.add(mHashMap.get(getKey(curRow, curCol + 1)));
-                    } else {//出现不连续的，跳过去
-                        curCol = CELLS_HORIZONTAL;
-                    }
-                }
-                curCol += 1;
-            }
-        }
-        return deadArrayList;
-    }
-
-    /**
-     * 相邻两颗钻石在HashMap里交换位置
-     */
-    private void swapInHashMap() {
-        //HashMap里互换
-        JewelSprite temp = mHashMap.get(getKey(mLastRow, mLastCol));
-        mHashMap.remove(getKey(mLastRow, mLastCol));
-        mHashMap.put(getKey(mLastRow, mLastCol),
-                mHashMap.get(getKey(mCurRow, mCurCol)));
-        mHashMap.remove(getKey(mCurRow, mCurCol));
-        mHashMap.put(getKey(mCurRow, mCurCol), temp);
-    }
-
-    /**
      * 随机获取一个钻石精灵
      */
     public JewelSprite getRandomJewel(final int row, final int col) {
-        int style = MathUtils.random(0, 6);
-        JewelSprite jewelSprite = new JewelSprite(row, col, mJewelTextureRegion[style], mBorderTextureRegion);
-        Log.i("getRandomJewel row", String.valueOf(row));
-        Log.i("getRandomJewel col", String.valueOf(col));
+        JewelSprite jewelSprite;
+        int style;
+        if(MathUtils.random(1, 10) == 1) {
+            style = JewelSprite.STYLE_BOOM;
+        } else {
+            style = MathUtils.random(0, 6);
+        }
+        jewelSprite = new JewelSprite(row, col, mJewelTextureRegion[style], mBorderTextureRegion);
         jewelSprite.setStyle(style);
         return jewelSprite;
     }

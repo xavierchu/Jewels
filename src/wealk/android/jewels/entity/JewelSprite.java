@@ -15,6 +15,8 @@ import wealk.android.jewels.constants.IConstants;
  */
 public class JewelSprite implements ISprite, IConstants {
 
+    public static final int STYLE_BOOM = 7;
+
     // ===========================================================
     // Fields
     // ===========================================================
@@ -141,4 +143,31 @@ public class JewelSprite implements ISprite, IConstants {
         }
         return this.getStyle() == jewelSprite.getStyle();
     }
+
+    /**
+     * 是否道具
+     *
+     * @param jewel
+     * @return
+     */
+    public boolean isProps() {
+        if(isBoom()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 是否炸弹
+     *
+     * @param jewel
+     * @return
+     */
+    public boolean isBoom() {
+        if(null != this && this.getStyle() == STYLE_BOOM) {
+            return true;
+        }
+        return false;
+    }
+
 }
