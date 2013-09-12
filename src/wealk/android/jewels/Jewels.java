@@ -1,10 +1,21 @@
 package wealk.android.jewels;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.microedition.khronos.opengles.GL10;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import org.anddev.andengine.audio.sound.Sound;
 import org.anddev.andengine.audio.sound.SoundFactory;
@@ -19,7 +30,6 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.shape.modifier.AlphaModifier;
-import org.anddev.andengine.entity.shape.modifier.LoopShapeModifier;
 import org.anddev.andengine.entity.shape.modifier.RotationModifier;
 import org.anddev.andengine.entity.shape.modifier.ScaleModifier;
 import org.anddev.andengine.entity.shape.modifier.SequenceShapeModifier;
@@ -38,26 +48,15 @@ import org.anddev.andengine.util.Debug;
 import org.anddev.andengine.util.HorizontalAlign;
 import org.anddev.andengine.util.MathUtils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.microedition.khronos.opengles.GL10;
+
 import wealk.android.jewels.constants.IConstants;
 import wealk.android.jewels.entity.BackgroundCell;
-import wealk.android.jewels.entity.BorderSprite;
 import wealk.android.jewels.entity.JewelSprite;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Handler;
-import android.os.Message;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.EditText;
-import android.widget.Toast;
 
 /**
  * @author Qingfeng
@@ -82,6 +81,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private static final int LAYER_BG_CELL = LAYER_BACKGROUND + 1;
     private static final int LAYER_JEWELS = LAYER_BG_CELL + 1;
     private static final int LAYER_SCORE = LAYER_JEWELS + 1;
+    protected final Background background = new Background();
 
     // ===========================================================
     // Fields
@@ -121,45 +121,43 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private int moveValue = 0;//交换移动的临时距离
 
     /**
-     * 背景*
-     */
-    private int mCurBGNum;//当前使用的背景的编号
-    private Texture mBackgroundTexture, mBackground2Texture;
-    protected TextureRegion mBackgroundTextureRegion;
-    protected TextureRegion mBackground2TextureRegion;//游戏开始时的一个背景动画
-    /**
      * 钻石*
      */
     private HashMap<String, JewelSprite> mHashMap;
     private Texture[] mJewelTexture;
     protected TextureRegion[] mJewelTextureRegion;
+
     /**
      * 钻石边框*
      */
-    private BorderSprite mBorder;
     private Texture mBorderTexture;
     private TextureRegion mBorderTextureRegion;
+
     /**
      * 单元格board*
      */
     private Texture mBoardTexture;
     private TextureRegion mBoardTextureRegion;
+
     /**
      * 单元格背景*
      */
     private Texture mBGCellTexture;
     private TextureRegion mBGCellTextureRegion;
+
     /**
      * bonus*
      */
     private Sprite mBonus;
     private Texture mBonusStaticBGTexture, mBonusBGTexture, mBonusTexture;
     private TextureRegion mBonusStaticBGTextureRegion, mBonusBGTextureRegion, mBonusTextureRegion;
+
     /**
      * LongestChain字体*
      */
     private Texture mLongestChainFontTexture;
     private Font mLongestChainFont;
+
     /**
      * 关卡*
      */
@@ -168,12 +166,14 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private Texture mChapterTexture;
     private Font mChapterFont;
     private ChangeableText mChapterText, mXText;
+
     /**
      * 最长连接*
      */
     private int mLongestChain = 0;
     private int mLongestChainTemp = 0;
     private ChangeableText mLongestChainText;
+
     /**
      * 分数*
      */
@@ -181,6 +181,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private Texture mScoreFontTexture;
     private Font mScoreFont;
     private ChangeableText mScoreBGText, mScoreText;
+
     /**
      * 发光精灵*
      */
@@ -192,6 +193,8 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private int mLastRow, mLastCol;//上一个选中的行、列
     private ArrayList<String> mDeadArrList;//可消去的钻石地址队列
     private int mTime = 0;//每一次10秒后还不做任何操作就自动提示
+
+    private ArrayList<JewelSprite> mSelectedJewels = new ArrayList<JewelSprite>();
 
     // ===========================================================
     // Methods for/from SuperClass/Interfaces
@@ -209,16 +212,16 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         TextureRegionFactory.setAssetBasePath("gfx/");
 
 		/*背景*/
-        this.mCurBGNum = MathUtils.random(1, 4);
-        String bgPath = "bground" + String.valueOf(this.mCurBGNum) + ".png";
-        this.mBackgroundTexture = new Texture(512, 1024, TextureOptions.DEFAULT);
-        this.mBackground2Texture = new Texture(512, 1024, TextureOptions.DEFAULT);
-        this.mBackgroundTextureRegion = TextureRegionFactory.createFromAsset
-                (this.mBackgroundTexture, this, bgPath, 0, 0);
-        this.mBackground2TextureRegion = TextureRegionFactory.createFromAsset
-                (this.mBackground2Texture, this, "title_bg" + String.valueOf(this.mCurBGNum) + ".png", 0, 0);
-        this.mEngine.getTextureManager().loadTexture(this.mBackgroundTexture);
-        this.mEngine.getTextureManager().loadTexture(this.mBackground2Texture);
+        this.background.setMCurBGNum(MathUtils.random(1, 4));
+        String bgPath = "bground" + String.valueOf(this.background.getMCurBGNum()) + ".png";
+        this.background.setMBackgroundTexture(new Texture(512, 1024, TextureOptions.DEFAULT));
+        this.background.setMBackground2Texture(new Texture(512, 1024, TextureOptions.DEFAULT));
+        this.background.setMBackgroundTextureRegion(TextureRegionFactory.createFromAsset
+                (this.background.getMBackgroundTexture(), this, bgPath, 0, 0));
+        this.background.setMBackground2TextureRegion(TextureRegionFactory.createFromAsset
+                (this.background.getMBackground2Texture(), this, "title_bg" + String.valueOf(this.background.getMCurBGNum()) + ".png", 0, 0));
+        this.mEngine.getTextureManager().loadTexture(this.background.getMBackgroundTexture());
+        this.mEngine.getTextureManager().loadTexture(this.background.getMBackground2Texture());
         /*钻石*/
         this.mJewelTexture = new Texture[7];
         this.mJewelTextureRegion = new TextureRegion[7];
@@ -242,12 +245,12 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         for (int i = 0; i < this.mJewelTexture.length; i++) {
             this.mEngine.getTextureManager().loadTexture(this.mJewelTexture[i]);
         }
-		/*钻石边框*/
+        /*钻石边框*/
         this.mBorderTexture = new Texture(64, 64, TextureOptions.DEFAULT);
         this.mBorderTextureRegion = TextureRegionFactory.createFromAsset
                 (this.mBorderTexture, this, "selection.png", 0, 0);
         this.mEngine.getTextureManager().loadTexture(this.mBorderTexture);
-		/*Board*/
+        /*Board*/
         this.mBoardTexture = new Texture(512, 512, TextureOptions.DEFAULT);
         this.mBoardTextureRegion = TextureRegionFactory.createFromAsset
                 (this.mBoardTexture, this, "board.png", 0, 0);
@@ -317,9 +320,6 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         //游戏循环(监听、更新)
         this.gameLoop();
 
-        //自动智能提示
-        this.autoTips();
-
         return this.mMainScene;
     }
 
@@ -342,41 +342,66 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
 
     @Override
     public boolean onSceneTouchEvent(final Scene pScene, final TouchEvent pSceneTouchEvent) {
-        //交换的时候不允许操作
-        if (STATE == MOVE_DOWN || STATE == MOVE_LEFT || STATE == MOVE_RIGHT || STATE == MOVE_UP || STATE == FALL) {
-            return false;
-        }
         //是否点击有效区域
         if (pSceneTouchEvent.getX() <= 0 || pSceneTouchEvent.getX() > CAMERA_WIDTH
-                || pSceneTouchEvent.getY() <= 0 || pSceneTouchEvent.getY() > CAMERA_WIDTH) {
+                && pSceneTouchEvent.getY() <= 0 && pSceneTouchEvent.getY() > CAMERA_WIDTH) {
+//            return false;
+        }
+
+        if (pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            this.mCurRow = (int) (pSceneTouchEvent.getX() / CELL_WIDTH);
+            this.mCurCol = (int) (pSceneTouchEvent.getY() / CELL_HEIGHT);
+            setBorderHidden(mSelectedJewels);
+            mSelectedJewels.clear();
+            JewelSprite jewel = this.getJewelSprite(mCurRow, mCurCol);
+            jewel.getBorderSprite().getSprite().setVisible(true);
+            mSelectedJewels.add(jewel);
+            Log.i("Jewels", "---------------- ACTION_DOWN");
+            return true;
+        } else if (pSceneTouchEvent.getAction() == MotionEvent.ACTION_MOVE) {
+            this.mCurRow = (int) (pSceneTouchEvent.getX() / CELL_WIDTH);
+            this.mCurCol = (int) (pSceneTouchEvent.getY() / CELL_HEIGHT);
+            JewelSprite jewel = this.getJewelSprite(mCurRow, mCurCol);
+            if(isInvalidSelected(jewel, mSelectedJewels.get(mSelectedJewels.size() - 1))) {
+                return true;
+            }
+            jewel.getBorderSprite().getSprite().setVisible(true);
+            mSelectedJewels.add(jewel);
+            Log.i("Jewels", "---------------- ACTION_MOVE");
+            return true;
+        } else if (pSceneTouchEvent.getAction() == MotionEvent.ACTION_UP) {
+            this.mCurRow = (int) (pSceneTouchEvent.getX() / CELL_WIDTH);
+            this.mCurCol = (int) (pSceneTouchEvent.getY() / CELL_HEIGHT);
+            JewelSprite jewel = this.getJewelSprite(mCurRow, mCurCol);
+            if(isInvalidSelected(jewel, mSelectedJewels.get(mSelectedJewels.size() - 1))) {
+                return true;
+            }
+            jewel.getBorderSprite().getSprite().setVisible(true);
+            mSelectedJewels.add(jewel);
+            Log.i("Jewels", "---------------- ACTION_UP");
             return false;
         }
-        if(pSceneTouchEvent.getAction() == MotionEvent.ACTION_MOVE) {
 
-        }
-
-//        if (pSceneTouchEvent.getAction() == MotionEvent.ACTION_DOWN) {
-//            mDeadArrList.clear();//试探后可以消去的队列
-//            mLongestChainTemp = 0;//清空临时记录的最长连接
-//            this.mCurRow = (int) (pSceneTouchEvent.getX() / CELL_WIDTH);
-//            this.mCurCol = (int) (pSceneTouchEvent.getY() / CELL_HEIGHT);
-//            this.mBorder.setMapPosition(this.mCurRow, this.mCurCol);
-//            this.mBorder.getSprite().setVisible(true);
-//            if (this.isNext()) {//相邻
-//                this.mBorder.getSprite().setVisible(false);
-//                this.setMoveDirection();
-//            } else if (this.mCurRow == this.mLastRow && this.mCurCol == this.mLastCol) {//两次点击是同一个
-//                this.mLastRow = -2;
-//                this.mLastCol = -2;
-//                this.mBorder.getSprite().setVisible(false);
-//            } else {//不相邻不是同一个
-//                this.mLastRow = this.mCurRow;
-//                this.mLastCol = this.mCurCol;
-//                this.mBorder.setMapPosition(this.mCurRow, this.mCurCol);
-//                this.mBorder.getSprite().setVisible(true);
-//            }
-//        }
         return false;
+    }
+
+    private boolean isInvalidSelected(JewelSprite curJewel, JewelSprite lastJewel) {
+        if(null == curJewel || lastJewel == null) {
+            return true;
+        }
+        if(!curJewel.equalsStyle(lastJewel)) {
+            return true;
+        }
+        if(Math.abs(curJewel.getCol() - lastJewel.getCol()) > 1 || Math.abs(curJewel.getRow() - lastJewel.getRow()) > 1) {
+            return true;
+        }
+        return false;
+    }
+
+    private void setBorderHidden(ArrayList<JewelSprite> jewels) {
+        for(JewelSprite jewel : jewels) {
+            jewel.getBorderSprite().getSprite().setVisible(false);
+        }
     }
 
     @Override
@@ -402,7 +427,6 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         this.initBG();
         this.initCellBG();
         this.initJewels();
-        this.initBorderSprite();
         this.initBonus();
         this.initLongestChain();
         this.initScore();
@@ -517,69 +541,10 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
             public void onUpdate(float pSecondsElapsed) {
 
                 if (Jewels.this.mGameRunning) {
-                    switch (STATE) {
-                        case MOVE_UP:
-                            moveUp();
-                            break;
-                        case MOVE_DOWN:
-                            moveDown();
-                            break;
-                        case MOVE_LEFT:
-                            moveLeft();
-                            break;
-                        case MOVE_RIGHT:
-                            moveRight();
-                            break;
-                        case CHECK:
-                            checkMapDead(); //死局检测
-                            removeHorizontal(); //水平消去
-                            removeVrtical();    //垂直消去
-                            changeState();
-                            break;
-                        case FALL:
-                            refreshScale(); //消去动画
-                            fillEmpty();    //填充空缺
-                            break;
-                        case DEAD:
-                            Jewels.this.mGameRunning = false;
-                            Message msg = new Message();
-                            msg.what = 2;
-                            handler.sendMessage(msg);
-                            Message msg1 = new Message();
-                            msg1.what = 1;
-                            handler.sendMessage(msg1);
-                            break;
-                        default:
-                            break;
-                    }
+                    //TODO:
                 }
             }
         });
-    }
-
-    /**
-     * 钻石自动发光提示(可消去的)
-     */
-    private void autoTips() {
-        this.mMainScene.registerUpdateHandler(new TimerHandler(1f, true, new ITimerCallback() {
-            @Override
-            public void onTimePassed(TimerHandler pTimerHandler) {
-                if (mGameRunning) {
-                    if (STATE == CHECK) {
-                        mTime++;
-                        if (mTime >= 10) {
-                            //提示
-                            Message msg = new Message();
-                            msg.what = 3;
-                            handler.sendMessage(msg);
-                            mTime = 0;
-                        }
-                    } else {
-                        mTime = 0;
-                    }
-                }
-            }
-        }));
     }
 
     /**
@@ -596,7 +561,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
      * 初始化背景
      */
     private void initBG() {
-        final Sprite background = new Sprite(0, 0, this.mBackgroundTextureRegion);
+        final Sprite background = new Sprite(0, 0, this.background.getMBackgroundTextureRegion());
         this.mMainScene.getLayer(LAYER_BACKGROUND).addEntity(background);
     }
 
@@ -691,6 +656,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         for (int i = 0; i < CELLS_HORIZONTAL; i++) {
             for (int j = 0; j < CELLS_VERTICAL; j++) {
                 String key = getKey(i, j);
+
                 JewelSprite value = getRandomJewel(i, j);
                 while (checkHorizontal(value).size() >= 3 || checkVertical(value).size() >= 3) {
                     value = getRandomJewel(i, j);
@@ -698,21 +664,10 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
                 mHashMap.put(key, value);
                 this.mMainScene.getLayer(LAYER_JEWELS).addEntity(
                         this.mHashMap.get(key).getJewel());
+                this.mMainScene.getLayer(LAYER_JEWELS).addEntity(
+                        this.mHashMap.get(key).getBorderSprite().getSprite());
             }
         }
-    }
-
-    /**
-     * 初始化钻石边框精灵
-     */
-    private void initBorderSprite() {
-        //边框精灵先隐藏起来，哪个钻石被点击了移动到哪。
-        this.mBorder = new BorderSprite(-2, -2, mBorderTextureRegion);
-        this.mBorder.getSprite().setVisible(false);
-        this.mBorder.getSprite().setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
-        this.mBorder.getSprite().addShapeModifier(new LoopShapeModifier(new SequenceShapeModifier
-                (new AlphaModifier(0.4f, 1, 0), new AlphaModifier(0.2f, 0, 1))));
-        this.mMainScene.getLayer(LAYER_JEWELS).addEntity(this.mBorder.getSprite());
     }
 
     /**
@@ -720,7 +675,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
      */
     private void onStarting() {
         //阴影效果
-        final Sprite background2 = new Sprite(0, 0, this.mBackground2TextureRegion);
+        final Sprite background2 = new Sprite(0, 0, this.background.getMBackground2TextureRegion());
         background2.setAlpha(0.7f);
         background2.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         this.mMainScene.getLayer(LAYER_BACKGROUND).addEntity(background2);
@@ -744,10 +699,10 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         }
         if (mDeadArrList.size() > 0) {
             String key = mDeadArrList.get(MathUtils.random(0, mDeadArrList.size() - 1));
-            mSpark.setPosition(Integer.parseInt(key.substring(0, 1)) * CELL_WIDTH + 8,
-                    Integer.parseInt(key.substring(1, 2)) * CELL_HEIGHT + 8);
-            mSpark2.setPosition(Integer.parseInt(key.substring(0, 1)) * CELL_WIDTH + 4,
-                    Integer.parseInt(key.substring(1, 2)) * CELL_HEIGHT + 4);
+            mSpark.setPosition(Integer.parseInt(key.split(",")[0]) * CELL_WIDTH + 8,
+                    Integer.parseInt(key.split(",")[1]) * CELL_HEIGHT + 8);
+            mSpark2.setPosition(Integer.parseInt(key.split(",")[0]) * CELL_WIDTH + 4,
+                    Integer.parseInt(key.split(",")[1]) * CELL_HEIGHT + 4);
             mSpark.setVisible(true);
             mSpark2.setVisible(true);
             mSpark2.addShapeModifier(new RotationModifier(1.5f, 0, 90));
@@ -760,23 +715,6 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         }
     }
 
-    /**
-     * 设置交换移动方向
-     */
-    private void setMoveDirection() {
-        if (this.mLastRow == this.mCurRow && this.mLastCol > this.mCurCol) {
-            this.STATE = this.MOVE_UP;
-        }
-        if (this.mLastRow == this.mCurRow && this.mLastCol < this.mCurCol) {
-            this.STATE = this.MOVE_DOWN;
-        }
-        if (this.mLastRow > this.mCurRow && this.mLastCol == this.mCurCol) {
-            this.STATE = this.MOVE_LEFT;
-        }
-        if (this.mLastRow < this.mCurRow && this.mLastCol == this.mCurCol) {
-            this.STATE = this.MOVE_RIGHT;
-        }
-    }
 
     /**
      * 更新缩放动画
@@ -787,182 +725,6 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
                 if (mHashMap.get(getKey(j, i)) != null && mHashMap.get(getKey(j, i)).getState() == STATE_SCALEINT) {
                     mHashMap.get(getKey(j, i)).doScale();
                 }
-            }
-        }
-    }
-
-    /**
-     * 向上交换移动
-     */
-    private void moveUp() {
-        if (mIsSwaping) {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float x = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float curY = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                final float lastY = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(x, curY + SPEED);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(x, lastY - SPEED);
-            } else {
-                swapInHashMap();
-                STATE = CHECK;
-                moveValue = 0;
-                mIsSwaping = false;
-                this.mLastRow = -2;
-                this.mLastCol = -2;
-            }
-        } else {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float x = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float curY = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                final float lastY = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(x, curY + SPEED);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(x, lastY - SPEED);
-            } else {
-                swapInHashMap();
-                if (isSwapFall()) {
-                    this.mFallSound.play();
-                    STATE = CHECK;
-                    this.mLastRow = -2;
-                    this.mLastCol = -2;
-                } else {
-                    this.mSwapErrorSound.play();
-                    mIsSwaping = true;
-                }
-                moveValue = 0;
-            }
-        }
-    }
-
-    /**
-     * 向下交换移动
-     */
-    private void moveDown() {
-        if (mIsSwaping) {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float x = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float curY = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                final float lastY = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(x, curY - SPEED);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(x, lastY + SPEED);
-            } else {
-                swapInHashMap();
-                STATE = CHECK;
-                moveValue = 0;
-                mIsSwaping = false;
-                this.mLastRow = -2;
-                this.mLastCol = -2;
-            }
-        } else {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float x = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float curY = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                final float lastY = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(x, curY - SPEED);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(x, lastY + SPEED);
-            } else {
-                swapInHashMap();
-                if (isSwapFall()) {
-                    this.mFallSound.play();
-                    STATE = CHECK;
-                    this.mLastRow = -2;
-                    this.mLastCol = -2;
-                } else {
-                    this.mSwapErrorSound.play();
-                    mIsSwaping = true;
-                }
-                moveValue = 0;
-            }
-        }
-    }
-
-    /**
-     * 向左交换移动
-     */
-    private void moveLeft() {
-        if (mIsSwaping) {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float curX = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float lastX = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getX();
-                final float y = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(curX + SPEED, y);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(lastX - SPEED, y);
-            } else {
-                swapInHashMap();
-                STATE = CHECK;
-                moveValue = 0;
-                mIsSwaping = false;
-                this.mLastRow = -2;
-                this.mLastCol = -2;
-            }
-        } else {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float curX = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float lastX = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getX();
-                final float y = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(curX + SPEED, y);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(lastX - SPEED, y);
-            } else {
-                swapInHashMap();
-                if (isSwapFall()) {
-                    this.mFallSound.play();
-                    STATE = CHECK;
-                    this.mLastRow = -2;
-                    this.mLastCol = -2;
-                } else {
-                    this.mSwapErrorSound.play();
-                    mIsSwaping = true;
-                }
-                moveValue = 0;
-            }
-        }
-    }
-
-    /**
-     * 向右交换移动
-     */
-    private void moveRight() {
-        if (mIsSwaping) {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float curX = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float lastX = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getX();
-                final float y = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(curX - SPEED, y);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(lastX + SPEED, y);
-            } else {
-                swapInHashMap();
-                STATE = CHECK;
-                moveValue = 0;
-                mIsSwaping = false;
-                this.mLastRow = -2;
-                this.mLastCol = -2;
-            }
-        } else {
-            if (moveValue < CELL_HEIGHT) {
-                moveValue += SPEED;
-                final float curX = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getX();
-                final float lastX = this.mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().getX();
-                final float y = this.mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().getY();
-                mHashMap.get(getKey(mCurRow, mCurCol)).getJewel().setPosition(curX - SPEED, y);
-                mHashMap.get(getKey(mLastRow, mLastCol)).getJewel().setPosition(lastX + SPEED, y);
-            } else {
-                swapInHashMap();
-                if (isSwapFall()) {
-                    this.mFallSound.play();
-                    STATE = CHECK;
-                    this.mLastRow = -2;
-                    this.mLastCol = -2;
-                } else {
-                    this.mSwapErrorSound.play();
-                    mIsSwaping = true;
-                }
-                moveValue = 0;
             }
         }
     }
@@ -1331,7 +1093,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
      */
     public JewelSprite getRandomJewel(final int row, final int col) {
         int style = MathUtils.random(0, 6);
-        JewelSprite jewelSprite = new JewelSprite(row, col, mJewelTextureRegion[style]);
+        JewelSprite jewelSprite = new JewelSprite(row, col, mJewelTextureRegion[style], mBorderTextureRegion);
         jewelSprite.setStyle(style);
         return jewelSprite;
     }
@@ -1356,7 +1118,7 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
      * @return HashMap的key
      */
     private String getKey(final int row, final int col) {
-        return String.valueOf(row) + String.valueOf(col);
+        return String.valueOf(row) + "," + String.valueOf(col);
     }
 
     /**
@@ -1416,8 +1178,8 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
             mHashMap.get(getKey(i, 7)).setState(STATE_SCALEINT);
         }
         //换背景
-        this.mBackgroundTexture.clearTextureSources();
-        TextureRegionFactory.createFromAsset(this.mBackgroundTexture, this, getRandomBG(), 0, 0);
+        this.background.getMBackgroundTexture().clearTextureSources();
+        TextureRegionFactory.createFromAsset(this.background.getMBackgroundTexture(), this, getRandomBG(), 0, 0);
     }
 
     /**
@@ -1428,11 +1190,11 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
     private String getRandomBG() {
         String bg = "";
         int temp = MathUtils.random(1, 4);
-        while (temp == mCurBGNum) {
+        while (temp == background.getMCurBGNum()) {
             temp = MathUtils.random(1, 4);
         }
-        mCurBGNum = temp;
-        bg = "bground" + String.valueOf(mCurBGNum) + ".png";
+        background.setMCurBGNum(temp);
+        bg = "bground" + String.valueOf(background.getMCurBGNum()) + ".png";
         return bg;
     }
 
@@ -1608,5 +1370,9 @@ public class Jewels extends BaseGameActivity implements IOnSceneTouchListener, I
         intent.setClass(getApplicationContext(), Menu.class);
         startActivity(intent);
         Jewels.this.finish();
+    }
+
+    private JewelSprite getJewelSprite(int row, int col) {
+        return mHashMap.get(this.getKey(row, col));
     }
 }
