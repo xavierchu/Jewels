@@ -29,7 +29,13 @@ public class JewelSprite implements ISprite, IConstants {
     // ===========================================================
 
     public JewelSprite(int row, int col, TextureRegion mJewelTextureRegion, TextureRegion mBorderTextureRegion) {
-        this.mSprite = new JewelCell(row, col, mJewelTextureRegion);
+        this.mSprite = new JewelCell(row, col, mJewelTextureRegion) {
+            @Override
+            public void setPosition(float pX, float pY) {
+                super.setPosition(pX, pY);
+                JewelSprite.this.mBorderSprite.setMapPosition(JewelSprite.this.getRow(), JewelSprite.this.getCol());
+            }
+        };
         this.mSprite.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);
         this.mState = STATE_NORMAL;//默认是正常状态
         this.mBorderSprite = new BorderSprite(row, col, mBorderTextureRegion);
@@ -52,7 +58,10 @@ public class JewelSprite implements ISprite, IConstants {
 
     @Override
     public void setMapPosition(int row, int col) {
-        this.mSprite.setPosition(row * CELL_WIDTH, col * CELL_HEIGHT);
+        int rowPos = row * CELL_WIDTH;
+        int colPos = col * CELL_HEIGHT;
+        this.mSprite.setPosition(rowPos, colPos);
+        this.mBorderSprite.setMapPosition(rowPos, colPos);
     }
 
     // ===========================================================
